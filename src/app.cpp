@@ -18,7 +18,7 @@
 #include "app.h"
 
 /** Set the device name, max length is 10 characters */
-char g_ble_dev_name[10] = "RAK-TEST";
+char g_ble_dev_name[10] = "WB-Love";
 
 /** Flag showing if TX cycle is ongoing */
 bool lora_busy = false;
@@ -50,8 +50,13 @@ void setup_app(void)
  */
 bool init_app(void)
 {
-	MYLOG("APP", "init_app");
-	return true;
+    bool init_result = true;
+
+	MYLOG("APP", "Application initialization");
+
+    // Initialize ACC sensor
+	init_result |= init_acc();
+	return init_result;
 }
 
 /**
@@ -90,6 +95,17 @@ void app_event_handler(void)
                     break;
 		}
 	}
+
+    // ACC trigger event
+	if ((g_task_event_type & ACC_TRIGGER) == ACC_TRIGGER &&  g_lpwan_has_joined)
+	{
+		g_task_event_type &= N_ACC_TRIGGER;
+		MYLOG("APP", "ACC triggered");
+		clear_acc_int();
+        // Trigger a packet sending
+        g_task_event_type |= STATUS;
+	}
+
 }
 
 /**

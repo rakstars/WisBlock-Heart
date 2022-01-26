@@ -52,7 +52,18 @@ void app_event_handler(void);
 void ble_data_handler(void) __attribute__((weak));
 void lora_data_handler(void);
 
+/** Application events */
+#define ACC_TRIGGER 0b1000000000000000
+#define N_ACC_TRIGGER 0b0111111111111111
+
 /** Application stuff */
 extern BaseType_t g_higher_priority_task_woken;
+
+/** Accelerometer stuff */
+#include <SparkFunLIS3DH.h>
+#define INT1_PIN WB_IO1
+bool init_acc(void);
+void clear_acc_int(void);
+void read_acc(void);
 
 #endif
