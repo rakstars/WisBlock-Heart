@@ -56,6 +56,10 @@ bool init_app(void)
 
     // Initialize ACC sensor
 	init_result |= init_acc();
+
+	//Initialize EPD
+	init_result |= init_epd();
+
 	return init_result;
 }
 
@@ -102,6 +106,9 @@ void app_event_handler(void)
 		g_task_event_type &= N_ACC_TRIGGER;
 		MYLOG("APP", "ACC triggered");
 		clear_acc_int();
+		// Switch EPD message
+		gMsgNum++;
+		switch_epd_message();
         // Trigger a packet sending
         g_task_event_type |= STATUS;
 	}

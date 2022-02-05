@@ -61,9 +61,14 @@ extern BaseType_t g_higher_priority_task_woken;
 
 /** Accelerometer stuff */
 #include <SparkFunLIS3DH.h>
-#define INT1_PIN WB_IO1
+#define INT1_PIN WB_IO3
 bool init_acc(void);
 void clear_acc_int(void);
 void read_acc(void);
+
+/** EPD stuff */
+bool init_epd(void);
+void switch_epd_message(void);
+extern uint8_t gMsgNum;
 
 #endif
