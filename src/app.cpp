@@ -192,6 +192,41 @@ void lora_data_handler(void)
 			log_idx += 3;
 		}
 		MYLOG("APP", "%s", log_buff);
+
+		if (g_rx_lora_data[1] == ':') 
+		{
+			MYLOG("APP", "The downlink was for setting a new EDP message");
+			switch (g_rx_lora_data[0])
+			{
+				case '1':
+					memcpy(g_user_flash_data.epd_msg_1, &g_rx_lora_data[2], 80);
+					gMsgNum = 1;
+					break;
+				case '2':
+					memcpy(g_user_flash_data.epd_msg_2, &g_rx_lora_data[2], 80);
+					gMsgNum = 2;
+					break;
+				case '3':
+					memcpy(g_user_flash_data.epd_msg_3, &g_rx_lora_data[2], 80);
+					gMsgNum = 3;
+					break;
+				case '4':
+					memcpy(g_user_flash_data.epd_msg_4, &g_rx_lora_data[2], 80);
+					gMsgNum = 4;
+					break;
+				default:
+					break;
+			}
+
+			// Clear g_rx_lora_data to avoid future messages overlapping
+			memset(g_rx_lora_data, 0, 256);
+			
+			// Save message to User Flash Data
+			save_user_flash_data();
+			// Show the message
+			switch_epd_message();
+		}
+
 	}
 
 	// LoRa TX finished handling
