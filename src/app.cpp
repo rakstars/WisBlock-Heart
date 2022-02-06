@@ -57,8 +57,14 @@ bool init_app(void)
     // Initialize ACC sensor
 	init_result |= init_acc();
 
-	//Initialize EPD
+	// Initialize EPD
 	init_result |= init_epd();
+
+	// Initialize User Data File
+	init_user_flash_data();
+
+	// Show info from User Data File
+	log_user_flash_data();
 
 	return init_result;
 }

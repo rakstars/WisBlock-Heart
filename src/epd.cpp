@@ -121,11 +121,14 @@ void testdrawtext(int16_t x, int16_t y, char *text, uint16_t text_color, uint32_
 
 void switch_epd_message()
 {
+  char str[80];
   if(gMsgNum == 1)
   {
     MYLOG("EPD", "Message #%d", gMsgNum);
     display.clearBuffer();
-    display.drawBitmap(DEPG_HP.position2_x, DEPG_HP.position2_y, rak_img, 150, 56, EPD_BLACK);
+    //testdrawtext(0, 30, "If I know what love1If I know what love2If I know what love3If I know what love4", (uint16_t)EPD_BLACK, 2);
+    sprintf(str, "%.80s", g_user_flash_data.epd_msg_1);
+    testdrawtext(0, 40, (char*)str, (uint16_t)EPD_BLACK, 2);
     display.display(true);
   }
 
@@ -133,7 +136,8 @@ void switch_epd_message()
   {
     MYLOG("EPD", "Message #%d", gMsgNum);
     display.clearBuffer();
-    testdrawtext(DEPG_HP.position3_x, DEPG_HP.position3_y, "Hi! I am thinking about you. Love you", (uint16_t)EPD_BLACK, 2);
+    sprintf(str, "%.80s", g_user_flash_data.epd_msg_2);
+    testdrawtext(0, 40, (char*)str, (uint16_t)EPD_BLACK, 2);
     display.display(true);
   }
 
@@ -141,7 +145,8 @@ void switch_epd_message()
   {
     MYLOG("EPD", "Message #%d", gMsgNum);
     display.clearBuffer();
-    testdrawtext(0, 30, "If I know what love is, it is because of you", (uint16_t)EPD_BLACK, 2);
+    sprintf(str, "%.80s", g_user_flash_data.epd_msg_3);
+    testdrawtext(0, 40, (char*)str, (uint16_t)EPD_BLACK, 2);
     display.display(true);
   }
 
@@ -149,9 +154,8 @@ void switch_epd_message()
   {
     MYLOG("EPD", "Message #%d", gMsgNum);
     display.clearBuffer();
-    testdrawtext(10, 30, "While (true){", (uint16_t)EPD_BLACK, 2);
-    testdrawtext(10, 50, "    I love you", (uint16_t)EPD_BLACK, 2);
-    testdrawtext(10, 70, "}", (uint16_t)EPD_BLACK, 2);
+    sprintf(str, "%.80s", g_user_flash_data.epd_msg_4);
+    testdrawtext(0, 40, (char*)str, (uint16_t)EPD_BLACK, 2);
     display.display(true);
   }
 
@@ -159,7 +163,7 @@ void switch_epd_message()
   {
     MYLOG("EPD", "Message #%d", gMsgNum);
     display.clearBuffer();
-    testdrawtext(0, 30, "Even when I am not  with you, all I can think of is your    smile", (uint16_t)EPD_BLACK, 2);
+    display.drawBitmap(DEPG_HP.position2_x, DEPG_HP.position2_y, rak_img, 150, 56, EPD_BLACK);
     display.display(true);
     gMsgNum = 0;
   }
