@@ -101,7 +101,7 @@ void app_event_handler(void)
 	}
 
     // ACC trigger event
-	if ((g_task_event_type & ACC_TRIGGER) == ACC_TRIGGER &&  g_lpwan_has_joined)
+	if ((g_task_event_type & ACC_TRIGGER) == ACC_TRIGGER &&  (g_lpwan_has_joined || !g_lorawan_settings.auto_join))
 	{
 		g_task_event_type &= N_ACC_TRIGGER;
 		MYLOG("APP", "ACC triggered");
@@ -109,8 +109,12 @@ void app_event_handler(void)
 		// Switch EPD message
 		gMsgNum++;
 		switch_epd_message();
-        // Trigger a packet sending
-        g_task_event_type |= STATUS;
+
+		if (g_lpwan_has_joined) 
+		{
+			// Trigger a packet sending
+        	g_task_event_type |= STATUS;
+		}
 	}
 
 }
